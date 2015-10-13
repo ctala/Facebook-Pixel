@@ -24,13 +24,17 @@
 include_once "classes/HelperPixel.php";
 
 add_action('wp_head', 'hook_facebook_pixel');
+add_action('wp_head', 'hook_facebook_pixel_audience');
 
 function hook_facebook_pixel() {
     if (!is_admin()) {
         $fbk_pixel_id = get_option('fbk_pixel_id');
-        $fbk_pixel_currency = strtoupper(get_option('fbk_pixel_currency'));
-        //die($fbk_pixel_id);
-        $script = "<script>(function() {
+        if (isset($fbk_pixel_id) && $fbk_pixel_id != "") {
+
+            $fbk_pixel_currency = strtoupper(get_option('fbk_pixel_currency'));
+
+
+            $script = "<script>(function() {
                     var _fbq = window._fbq || (window._fbq = []);
                     if (!_fbq.loaded) {
                         var fbds = document.createElement('script');
@@ -46,13 +50,60 @@ function hook_facebook_pixel() {
                     </script> 
                      
                     
-                </script>
+                
                     ";
-        $noscript = "<noscript>"
-                . "<img height='1' width='1' alt='' style='display:none' src='https://www.facebook.com/tr?ev=$fbk_pixel_id&amp;cd[value]=0.00&amp;cd[currency]=$fbk_pixel_currency&amp;noscript=1' />"
-                . "</noscript>";
+            $noscript = "<noscript>"
+                    . "<img height='1' width='1' alt='' style='display:none' src='https://www.facebook.com/tr?ev=$fbk_pixel_id&amp;cd[value]=0.00&amp;cd[currency]=$fbk_pixel_currency&amp;noscript=1' />"
+                    . "</noscript>";
 
-        echo $script . $noscript;
+            echo $script . $noscript;
+        }
+    }
+}
+
+function hook_facebook_pixel_audience() {
+    if (!is_admin()) {
+
+        $fbk_pixel_id = get_option('fbk_pixel_custom_id');
+        if (isset($fbk_pixel_id) && $fbk_pixel_id != "") {
+
+
+            $helper = new HelperPixel();
+
+            $audienceOptions = $helper->getAudienceOptions();
+
+
+            $script = "<!-- Facebook Pixel Code -->
+                <script>
+                !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+                n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+                t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+                document,'script','//connect.facebook.net/en_US/fbevents.js');
+
+                fbq('init', '$fbk_pixel_id ');
+                fbq('track', 'PageView');
+                ";
+
+            foreach ($audienceOptions as $option) {
+                $optionName = 'fbk_pixel_custom_option_' . $option;
+                $optionValue = get_option($optionName);
+                if ($optionValue == "on") {
+                    $script.="fbq('track', '$option');";
+                }
+            }
+
+            $script.="        
+                </script>
+                <noscript><img height='1' width='1' style='display:none'
+                src='https://www.facebook.com/tr?id=$fbk_pixel_id &ev=PageView&noscript=1'
+                /></noscript>
+                <!-- End Facebook Pixel Code -->
+                    ";
+
+
+            echo $script;
+        }
     }
 }
 
