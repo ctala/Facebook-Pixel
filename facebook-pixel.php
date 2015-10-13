@@ -20,6 +20,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+//include_once "classes/CurrencyCodes.php";
+include_once "classes/HelperPixel.php";
+
 add_action('wp_head', 'hook_facebook_pixel');
 
 function hook_facebook_pixel() {
