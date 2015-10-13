@@ -11,8 +11,8 @@
  *
  * @author ctala
  */
-
 include_once 'CurrencyCodes.php';
+
 class HelperPixel {
 
     var $audienceOptions = array(
@@ -31,8 +31,24 @@ class HelperPixel {
         return $this->audienceOptions;
     }
 
-    function getOptionsForm() {
-        
+    function getOptionsForm($name) {
+
+        $result = "";
+
+        $array = $this->audienceOptions;
+
+        foreach ($array as $option) {
+            $optionName = $name . $option;
+            if (get_option($optionName) == "on") {
+                $result.="\n<input type='checkbox' name='$optionName' checked> $option<br>";
+            } else {
+                $result.="\n<input type='checkbox' name='$optionName'> $option<br>";
+            }
+
+        }
+
+
+        return $result;
     }
 
     function getSelect($name, $id, $selected) {

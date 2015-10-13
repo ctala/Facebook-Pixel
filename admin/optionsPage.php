@@ -11,7 +11,7 @@ $helper = new HelperPixel();
         This plugin will add the Facebook Id Code to the head of the wordpress site.
     </p>
     <form method="post" action="options.php">
-<?php settings_fields('fbkPixel-settings-group'); ?>
+        <?php settings_fields('fbkPixel-settings-group'); ?>
         <?php do_settings_sections('fbkPixel-settings-group'); ?>
         <table class="form-table">
             <tr valign="top">
@@ -25,7 +25,7 @@ $helper = new HelperPixel();
             </tr>
         </table>
 
-<?php submit_button(); ?>
+        <?php submit_button(); ?>
 
     </form>
 </div>
@@ -38,8 +38,8 @@ $helper = new HelperPixel();
         Custom Audiences from your Website allows you to target your Facebook ads to audiences of people who have visited your website and remarket to people who have expressed interest in your products.
     </p>
     <form method="post" action="options.php">
-<?php settings_fields('fbkPixel-settings-group'); ?>
-        <?php do_settings_sections('fbkPixel-settings-group'); ?>
+        <?php settings_fields('fbkPixel-custom-settings-group'); ?>
+        <?php do_settings_sections('fbkPixel-custom-settings-group'); ?>
         <table class="form-table">
             <tr valign="top">
                 <th scope="row">Custome Audience ID</th>
@@ -47,13 +47,16 @@ $helper = new HelperPixel();
 
             </tr>
             <tr valign="top">
-                <th scope="row">Currency Code</th>
-                <td><input type="text" name="fbk_pixel_currency" value="<?php echo get_option('fbk_pixel_currency'); ?>" /></td>
+                <th scope="row">Audience Opcions</th>
+                <td>
+                    <?php
+                    echo $helper->getOptionsForm("fbk_pixel_custom_option_");
+                    ?></td>
 
             </tr>
         </table>
 
-<?php submit_button(); ?>
+        <?php submit_button(); ?>
 
     </form>
 </div>

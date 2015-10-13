@@ -71,7 +71,18 @@ function facebookpixel_create_menu() {
 function register_mysettings_facebookpixel() {
     //register our settings
     register_setting('fbkPixel-settings-group', 'fbk_pixel_id');
+
     register_setting('fbkPixel-settings-group', 'fbk_pixel_currency');
+
+    register_setting('fbkPixel-custom-settings-group', 'fbk_pixel_custom_id');
+
+    $helper = new HelperPixel();
+
+    $audienceOptions = $helper->getAudienceOptions();
+
+    foreach ($audienceOptions as $option) {
+        register_setting('fbkPixel-custom-settings-group', 'fbk_pixel_custom_option_' . $option);
+    }
 }
 
 function facebookpixel_settings_page() {
