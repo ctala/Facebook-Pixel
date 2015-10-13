@@ -4,7 +4,7 @@
   Plugin Name: Wordpress Facebook Pixel
   Description: Includes Facebook Pixel on your website.
   Author: Cristian Tala Sánchez
-  Version: 0.2.1
+  Version: 1.0.0
   Author URI: http://www.cristiantala.cl
   Plugin URI: https://bitbucket.org/ctala/wordpress-facebook-pixel/
   This program is free software: you can redistribute it and/or modify
